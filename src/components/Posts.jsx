@@ -1,4 +1,5 @@
 import styles from './Posts.module.css'
+import { Comments } from './Comments.jsx'
 
 export function Posts(){
     return(
@@ -36,12 +37,17 @@ export function Posts(){
                 <textarea 
                     placeholder='Deixe um comentário'
                 />
-                
+
                 <footer>
                     <button type='submit'>Publicar</button>
                 </footer>
-                
             </form>
+            <div className={styles.commentList}>
+                <Comments />
+                <Comments />
+                <Comments />
+            </div>
+            
         </article>
     )
 }
