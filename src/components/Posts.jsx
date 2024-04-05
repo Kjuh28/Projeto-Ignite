@@ -1,15 +1,13 @@
 import styles from './Posts.module.css'
 import { Comments } from './Comments.jsx'
+import { Avatar } from './Avatar.jsx'
 
 export function Posts(){
     return(
         <article className={styles.post}>
             <header>
                 <div className={styles.author}>
-                    <img 
-                        className={styles.avatar} 
-                        src='https://avatars.githubusercontent.com/u/33602289?v=4'
-                    />
+                    <Avatar hasBorder src={'https://avatars.githubusercontent.com/u/33602289?v=4'} />
                     <div className={styles.authorInfo}>
                         <strong>Kerley Sousa</strong>
                         <span>Web Developer</span>
