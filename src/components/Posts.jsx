@@ -5,10 +5,13 @@ import styles from './Posts.module.css'
 
 import { Comments } from './Comments.jsx'
 import { Avatar } from './Avatar.jsx'
+import { useState } from 'react'
+
 
 
 export function Posts({author, content, publishedAt}){
 
+    //Configuração data e hora do post
     const publishedDateFormat = format(publishedAt, "dd 'de' LLLL 'às' HH:mm", {
         locale: ptBR,
     })
@@ -17,6 +20,23 @@ export function Posts({author, content, publishedAt}){
         locale: ptBR,
         addSuffix: true,
     })
+
+    //Estado do comentario
+    const [comments, setComments] = useState(['Post muito bacana ein!'])
+    const [newCommentText, setNewCommentText] = useState('')
+
+    function handleCreateNewComment(e){
+        e.preventDefault()
+
+        setComments([...comments, newCommentText])
+        setNewCommentText('')
+    }
+
+    function handleNewCommentChange(e){
+        setNewCommentText(e.target.value)
+                
+    }
+
 
     return(
         <article className={styles.post}>
@@ -37,9 +57,9 @@ export function Posts({author, content, publishedAt}){
                 {
                     content.map(line =>{
                         if(line.type === 'text'){
-                            return <p>{line.content}</p>
+                            return <p key={line.content}>{line.content}</p>
                         } else if(line.type === 'link'){
-                            return <p><a href=''>{line.content}</a></p>
+                            return <p key={line.content}><a href=''>{line.content}</a></p>
                         }
                     })
                 }
@@ -48,17 +68,24 @@ export function Posts({author, content, publishedAt}){
             <form className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
 
-                <textarea 
+                <textarea
+                    name='comment' 
                     placeholder='Deixe um comentário'
+                    value={newCommentText}
+                    onChange={handleNewCommentChange}
                 />
 
                 <footer>
-                    <button type='submit'>Publicar</button>
+                    <button onClick={handleCreateNewComment} type='submit'>Publicar</button>
                 </footer>
             </form>
             <div className={styles.commentList}>
-                <Comments />
-                
+                {
+                   comments.map(comment => {
+                    return <Comments key={comment} comment={comment}/>  
+                   })
+                }
+                   
             </div>
             
         </article>
