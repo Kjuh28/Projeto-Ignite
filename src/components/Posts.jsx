@@ -37,6 +37,14 @@ export function Posts({author, content, publishedAt}){
                 
     }
 
+    function deleteComment(commentToDelete){
+        const commentsWithoutDeletedOne = comments.filter(comment => {
+            return comment != commentToDelete
+        })
+
+        setComments(commentsWithoutDeletedOne)
+    }
+
 
     return(
         <article className={styles.post}>
@@ -82,7 +90,7 @@ export function Posts({author, content, publishedAt}){
             <div className={styles.commentList}>
                 {
                    comments.map(comment => {
-                    return <Comments key={comment} comment={comment}/>  
+                    return <Comments key={comment} comment={comment} deleteComment={deleteComment}/>  
                    })
                 }
                    
