@@ -33,8 +33,12 @@ export function Posts({author, content, publishedAt}){
     }
 
     function handleNewCommentChange(e){
+        e.target.setCustomValidity('')
         setNewCommentText(e.target.value)
                 
+    }
+    function handleNewCommentInvalid(e){
+        e.target.setCustomValidity('Esse campo é obrigatório')
     }
 
     function deleteComment(commentToDelete){
@@ -45,6 +49,7 @@ export function Posts({author, content, publishedAt}){
         setComments(commentsWithoutDeletedOne)
     }
 
+    const isNewCommentEmpty = newCommentText.length === 0
 
     return(
         <article className={styles.post}>
@@ -73,7 +78,7 @@ export function Posts({author, content, publishedAt}){
                 }
             </div>
 
-            <form className={styles.commentForm}>
+            <form onSubmit={handleCreateNewComment} className={styles.commentForm}>
                 <strong>Deixe seu feedback</strong>
 
                 <textarea
@@ -81,16 +86,24 @@ export function Posts({author, content, publishedAt}){
                     placeholder='Deixe um comentário'
                     value={newCommentText}
                     onChange={handleNewCommentChange}
+                    onInvalid={handleNewCommentInvalid}
+                    required
                 />
 
                 <footer>
-                    <button onClick={handleCreateNewComment} type='submit'>Publicar</button>
+                    <button type='submit' disabled={isNewCommentEmpty}>Publicar</button>
                 </footer>
             </form>
             <div className={styles.commentList}>
                 {
                    comments.map(comment => {
-                    return <Comments key={comment} comment={comment} deleteComment={deleteComment}/>  
+                    return (
+                    <Comments 
+                        key={comment} 
+                        comment={comment} 
+                        deleteComment={deleteComment}
+                    />
+                    ) 
                    })
                 }
                    
